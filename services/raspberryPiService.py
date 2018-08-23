@@ -17,7 +17,35 @@
 
 import logging
 import schedule
-import repository.repository as repository
+import psutil
+import os
+
+def get_cpu_info():
+    return psutil.cpu_percent(interval=1, percpu=True)
+
+def get_temp_info():
+    result = 0
+    try:
+        tFile = open('/sys/class/thermal/thermal_zone0/temp')
+        temp = float(tFile.read())
+        result = temp/1000
+        tFile.close()
+    except:
+        tFile.close()
+
+    return result
+
+def get_mem_info():
+    return psutil.virtual_memory()
+
+def get_hdd_info():
+    return psutil.disk_usage('/')
+
+def shutdown():
+    os.system("sudo shutdown -h now")
+
+def restart():
+    os.system("sudo restart now")
 
 def check_raspberryPi():
     None
@@ -26,3 +54,4 @@ def schedule_raspberryPi(time_seconds):
     # print(time_seconds)
     schedule.every(time_seconds).seconds.do(check_raspberryPi)
     
+print(psutil.disk_usage('/'))
