@@ -37,9 +37,63 @@ class DBC:
             self.db = TinyDB(os.path.join('my-config', 'raspberryPi-db.json'))
         else:
             self.db = TinyDB(path)
+        self.db.table('UserConfiguration')
 
     def get_table(self, table_name):
         return self.db.table(table_name)
 
     def purge(self):
         self.db.purge_tables()
+
+    def insert_user_configuration(self, user_id):
+            result = False
+            if len(self.db.table('UserConfiguration').search(where('user_id') == user_id)) == 0:
+                self.db.table('UserConfiguration').insert({'user_id': user_id, 'cpu_alert': None, 'temp_alert': None, 'ram_alert': None, 'disk_alert': None, 'auth': False})
+                result = True
+
+            return result
+
+    def get_cpu_alert(self, user_id):
+        return self.db.table('UserConfiguration').search(where('user_id') == user_id)[0]['cpu_alert']
+
+    def get_temp_alert(self, user_id):
+        return self.db.table('UserConfiguration').search(where('user_id') == user_id)[0]['temp_alert']
+    
+    def get_ram_alert(self, user_id):
+        return self.db.table('UserConfiguration').search(where('user_id') == user_id)[0]['ram_alert']
+
+    def get_disk_alert(self, user_id):
+        return self.db.table('UserConfiguration').search(where('user_id') == user_id)[0]['disk_alert']
+
+    def get_user_authenticated(self, user_id):
+        return self.db.table('UserConfiguration').search(where('user_id') == user_id)[0]['auth']
+
+    def set_cpu_alert(self, user_id, percentage):
+        user_configuration = self.db.table('UserConfiguration')
+        query = Query()
+        user_configuration.update({'cpu_alert': percentage},
+                             query.user_id == user_id)
+
+    def set_temp_alert(self, user_id, degrees):
+        user_configuration = self.db.table('UserConfiguration')
+        query = Query()
+        user_configuration.update({'temp_alert': degrees},
+                             query.user_id == user_id)
+    
+    def set_ram_alert(self, user_id, percentage):
+        user_configuration = self.db.table('UserConfiguration')
+        query = Query()
+        user_configuration.update({'ram_alert': percentage},
+                             query.user_id == user_id)
+
+    def set_disk_alert(self, user_id, percentage):
+        user_configuration = self.db.table('UserConfiguration')
+        query = Query()
+        user_configuration.update({'disk_alert': percentage},
+                             query.user_id == user_id)
+
+    def set_user_authenticated(self, user_id):
+        user_configuration = self.db.table('UserConfiguration')
+        query = Query()
+        user_configuration.update({'auth': True},
+                             query.user_id == user_id)
