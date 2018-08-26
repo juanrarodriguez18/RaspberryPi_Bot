@@ -19,9 +19,14 @@ import logging
 import schedule
 import psutil
 import os
+from config.loadConfig import get_config
+import repository.repository as repository
 
 def get_cpu_info():
     return psutil.cpu_percent(interval=1, percpu=True)
+
+def get_cpu_percentage():
+    return psutil.cpu_percent(interval=1)
 
 def get_temp_info():
     result = 0
@@ -35,10 +40,10 @@ def get_temp_info():
 
     return result
 
-def get_mem_info():
+def get_ram_info():
     return psutil.virtual_memory()
 
-def get_hdd_info():
+def get_disk_info():
     return psutil.disk_usage('/')
 
 def shutdown():
@@ -48,10 +53,30 @@ def restart():
     os.system("sudo restart now")
 
 def check_raspberryPi():
-    None
+    repository.set_dbc(repository.DBC())
+    logging.debug("Checking alerts")
+    
+    for userConfiguration in repository.get_dbc().get_table('UserConfiguration').all():
+                user_id = userConfiguration['user_id']
+                repository.get_dbc().insert_user_configuration(user_id)
+                
+                if repository.get_dbc().get_cpu_alert(user_id) != None and repository.get_dbc().get_cpu_alert(user_id) <= get_cpu_percentage():
+                    print(get_cpu_percentage())
+                    print("CPU PERCENTAGE IS HIGH")
+
+                if repository.get_dbc().get_temp_alert(user_id) != None and repository.get_dbc().get_temp_alert(user_id) <= get_temp_info():
+                    print(get_temp_info())
+                    print("TEMP IS HIGH")
+
+                if repository.get_dbc().get_ram_alert(user_id) != None and repository.get_dbc().get_ram_alert(user_id) <= get_ram_info().percent:
+                    print(get_ram_info())
+                    print("RAM USAGE IS HIGH")
+
+                if repository.get_dbc().get_disk_alert(user_id) != None and repository.get_dbc().get_disk_alert(user_id) <= get_disk_info().percent:
+                    print(get_disk_info())
+                    print("DISK USAGE IS HIGH")
 
 def schedule_raspberryPi(time_seconds):
     # print(time_seconds)
     schedule.every(time_seconds).seconds.do(check_raspberryPi)
     
-print(psutil.disk_usage('/'))

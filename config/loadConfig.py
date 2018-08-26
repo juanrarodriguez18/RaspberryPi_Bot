@@ -28,6 +28,7 @@ class Config:
     def __init_empty_vars(self):
         self.telegram_token = None
         self.default_refresh_raspberryPi = None
+        self.password_raspberryPi = None
         self.log_path = None
         self.db_path = None
         self.log_level = None
@@ -42,6 +43,7 @@ class Config:
 
         # ========  RaspberryPi
         self.__set_default_refresh_raspberryPi(os.getenv('DEFAULT_REFRESH_TIME', 3 * 60))  # 3 minutos
+        self.__set_password_raspberryPi(os.getenv('PASSWORD', ""))
 
         # ========  Log
         self.__set_log_level(os.getenv('LOG_LEVEL', "INFO"))
@@ -57,17 +59,19 @@ class Config:
 
         self.__set_db_path(self.__lod(config, 'Database', 'PATH', self.db_path))
 
-        self.__set_default_refresh_raspberryPi(self.__lod(config, 'RaspberryPi', 'DEFAULT_REFRESH_TIME', self.__set_default_refresh_raspberryPi))
+        self.__set_default_refresh_raspberryPi(self.__lod(config, 'RaspberryPi', 'DEFAULT_REFRESH_TIME', self.default_refresh_raspberryPi))
+        self.__set_password_raspberryPi(self.__lod(config, 'RaspberryPi', 'PASSWORD', self.password_raspberryPi))
 
         self.__set_log_level(self.__lod(config, 'Log', 'LOG_LEVEL', self.log_level))
         self.__set_log_path(self.__lod(config, 'Log', 'LOG_PATH', self.log_path))
 
-    def load_config_variables(self, token, db_path, refresh_raspberryPi, log_level, log_path):
+    def load_config_variables(self, token, db_path, refresh_raspberryPi, password_raspberryPi, log_level, log_path):
         self.__set_telegram_token(self.__lov(token, self.telegram_token))
 
         self.__set_db_path(self.__lov(db_path, self.db_path))
 
-        self.__set_default_refresh_raspberryPi(self.__lov(refresh_raspberryPi, self.__set_default_refresh_raspberryPi))
+        self.__set_default_refresh_raspberryPi(self.__lov(refresh_raspberryPi, self.default_refresh_raspberryPi))
+        self.__set_password_raspberryPi(self.__lov(password_raspberryPi, self.password_raspberryPi))
 
         self.__set_log_level(self.__lov(log_level, self.log_level))
         self.__set_log_path(self.__lov(log_path, self.log_path))
@@ -96,7 +100,12 @@ class Config:
             inp = int(inp)
         if not isinstance(inp, int):
             raise AssertionError
-        self.__set_default_refresh_raspberryPi = inp
+        self.default_refresh_raspberryPi = inp
+
+    def __set_password_raspberryPi(self, inp):
+        if not isinstance(inp, str):
+            raise AssertionError
+        self.password_raspberryPi = inp
 
     def __set_log_level(self, inp):
         level = logging. _nameToLevel.get(inp)

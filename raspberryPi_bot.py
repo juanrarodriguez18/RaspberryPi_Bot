@@ -28,15 +28,16 @@ from services.raspberryPiService import schedule_raspberryPi
 @click.option('--config_path', default=None, help='Path to config file. It overwrite all env variables')
 @click.option('--token', help='The bot token. Please talk with @BotFather')
 @click.option('--db_path', help='Path to db (could be empty)')
-@click.option('--refresh_raspberryPi', help='The time between raspberryPi checks')
+@click.option('--refresh_raspberry_pi', help='The time between raspberryPi checks')
+@click.option('--password_raspberry_pi', help='Password needed for execute commands')
 @click.option('--log_level', help='Level to log. [INFO, DEBUG]')
 @click.option('--log_path', help='Path to log file')
-def init(config_path, token, db_path, refresh_raspberryPi, log_level, log_path):
+def init(config_path, token, db_path, refresh_raspberry_pi, password_raspberry_pi, log_level, log_path):
 
     set_config(Config())
     if config_path:
         get_config().load_config_file(config_path)
-    get_config().load_config_variables(token, db_path, refresh_raspberryPi, log_level, log_path)
+    get_config().load_config_variables(token, db_path, refresh_raspberry_pi, password_raspberry_pi, log_level, log_path)
 
     # ================== Initializer ==================
     set_dbc(DBC(path=get_config().db_path))

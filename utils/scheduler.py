@@ -18,7 +18,6 @@ import time
 import schedule
 import threading
 
-
 def init_scheduler():
     cease_continuous_run = threading.Event()
 
