@@ -18,9 +18,13 @@ from telegram.ext import CommandHandler, CallbackQueryHandler, ConversationHandl
     RegexHandler, Filters
 
 from commands.generic import start, help, error
-
+from commands.commands import reboot, shutdown
 
 def load_dispatcher(dispatcher):
     dispatcher.add_handler(CommandHandler('start', start))
     dispatcher.add_handler(CommandHandler('help', help))
+
+    # COMMANDS
+    dispatcher.add_handler(CommandHandler('reboot', reboot))
+    dispatcher.add_handler(CommandHandler('shutdown', shutdown))
     

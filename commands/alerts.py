@@ -17,14 +17,14 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import logging
 
-def cpu_alert():
+def cpu_alert(bot, update):
     None
 
-def temp_alert():
+def temp_alert(bot, update):
     None
 
-def ram_alert():
+def ram_alert(bot, update):
     None
 
-def disk_alert():
+def disk_alert(bot, update):
     None

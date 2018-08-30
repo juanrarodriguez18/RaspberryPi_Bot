@@ -17,17 +17,17 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import logging
 
-def info_resumed():
+def info_resumed(bot, update):
     None
 
-def info_cpu():
+def info_cpu(bot, update):
     None
 
-def info_temp():
+def info_temp(bot, update):
+    None
+    
+def info_ram(bot, update):
     None
 
-def info_ram():
-    None
-
-def info_disk():
+def info_disk(bot, update):
     None

@@ -20,7 +20,7 @@ import schedule
 import psutil
 import os
 from config.loadConfig import get_config
-import repository.repository as repository
+from repository.repository import DBC, get_dbc
 
 def get_cpu_info():
     return psutil.cpu_percent(interval=1, percpu=True)

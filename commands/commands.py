@@ -16,12 +16,23 @@
 #     along with RaspberryPi Bot.  If not, see <http:#www.gnu.org/licenses/>.
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import logging
+import repository.repository as repository
+from services.raspberryPiService import restart, shutdown
 
-def reboot():
-    None
+def reboot(bot, update):
+    if get_dbc().get_user_authenticated(update.message.chat_id):
+        update.message.reply_text("Your Raspberry Pi will be rebooted now.")
+        restart()
+    else:
+        update.message.reply_text("You haven't putted your password yet. Use the command /password to confirm it.")
 
-def shutdown():
-    None
 
-def password():
+def shutdown(bot, update):
+    if get_dbc().get_user_authenticated(update.message.chat_id):
+        update.message.reply_text("Your Raspberry Pi will be shut down now.")
+        shutdown()
+    else:
+        update.message.reply_text("You haven't putted your password yet. Use the command /password to confirm it.")
+
+def password(bot, update):
     None
