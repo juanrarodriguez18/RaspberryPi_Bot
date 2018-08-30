@@ -16,3 +16,18 @@
 #     along with RaspberryPi Bot.  If not, see <http:#www.gnu.org/licenses/>.
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import logging
+
+def info_resumed():
+    None
+
+def info_cpu():
+    None
+
+def info_temp():
+    None
+
+def info_ram():
+    None
+
+def info_disk():
+    None
