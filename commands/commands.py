@@ -15,24 +15,47 @@
 #     You should have received a copy of the GNU General Public License
 #     along with RaspberryPi Bot.  If not, see <http:#www.gnu.org/licenses/>.
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import ConversationHandler
 import logging
-import repository.repository as repository
-from services.raspberryPiService import restart, shutdown
+from repository.repository import get_dbc
+import services.raspberryPiService as raspberryPiService
+from config.loadConfig import get_config
+
+PASSWORD = 1
 
 def reboot(bot, update):
     if get_dbc().get_user_authenticated(update.message.chat_id):
         update.message.reply_text("Your Raspberry Pi will be rebooted now.")
-        restart()
+        raspberryPiService.restart()
     else:
         update.message.reply_text("You haven't putted your password yet. Use the command /password to confirm it.")
-
 
 def shutdown(bot, update):
     if get_dbc().get_user_authenticated(update.message.chat_id):
         update.message.reply_text("Your Raspberry Pi will be shut down now.")
-        shutdown()
+        raspberryPiService.shutdown()
     else:
         update.message.reply_text("You haven't putted your password yet. Use the command /password to confirm it.")
 
 def password(bot, update):
-    None
+    update.message.reply_text("Send me the password that you put at the config file:")
+
+    return PASSWORD
+
+def verify_password(bot, update):
+    password = update.message.text
+
+    if(get_config().password_raspberryPi == password):
+        update.message.reply_text("Your user has been successfully verified!")  
+        get_dbc().set_user_authenticated(update.message.chat_id)
+        return ConversationHandler.END 
+    else:
+        update.message.reply_text("Wrong password! Try again:")  
+        return PASSWORD
+
+def cancel(bot, update):
+    user = update.message.from_user
+    logging.info("User %s canceled the conversation." % user.first_name)
+    update.message.reply_text('Operation cancelled.')
+
+    return ConversationHandler.END

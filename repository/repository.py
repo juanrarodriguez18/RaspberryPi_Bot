@@ -97,6 +97,3 @@ class DBC:
         query = Query()
         user_configuration.update({'auth': True},
                              query.user_id == user_id)
-
-set_dbc(DBC())
-get_dbc().insert_user_configuration('123')

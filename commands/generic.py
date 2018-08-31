@@ -17,13 +17,21 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import logging
 import time
+from repository.repository import DBC, get_dbc
 
 
 def start(bot, update):
     # print(update.message.chat_id)
-    update.message.reply_text("""User configured! Use the command /password to put the same password
-                                that you had put at the config file. When you enter the password, your user
-                                will be verified and you will be able to use the commands.""")
+    is_inserted = get_dbc().insert_user_configuration(update.message.chat_id)
+
+    if is_inserted:
+        update.message.reply_text("User configured! Use the command /password to put the same password "+
+        "that you had put at the config file. \n\nWhen you enter the password, your user "+
+        "will be verified and you will be able to use the commands.")
+    else:
+        update.message.reply_text("You user already exists! Remember, use the command /password to put the same password "+
+        "that you had put at the config file. \n\nWhen you enter the password, your user "+
+        "will be verified and you will be able to use the commands.")
 
 def help(bot, update):
     update.message.reply_text("Help")
