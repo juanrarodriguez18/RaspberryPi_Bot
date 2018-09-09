@@ -73,7 +73,7 @@ def info_ram(bot, update):
 
 def info_disk(bot, update):
     locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
-    info_disk_string = ("This is your Pi's RAM info: \n"+
+    info_disk_string = ("This is your Pi's DISK info: \n"+
                             "\n - *PERCENTAGE*: "+str(raspberryPiService.get_disk_info().percent)+" %"+
                             "\n - *TOTAL*: "+locale.format('%d', raspberryPiService.get_disk_info().total/1024, True)+" MB"+
                             "\n - *USED*: "+locale.format('%d', raspberryPiService.get_disk_info().used/1024, True)+" MB"+
