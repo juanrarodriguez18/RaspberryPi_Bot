@@ -18,11 +18,19 @@ from telegram.ext import CommandHandler, CallbackQueryHandler, ConversationHandl
     RegexHandler, Filters
 
 from commands.generic import start, help, error
+from commands.information import info_resumed, info_cpu, info_temp, info_ram, info_disk
 from commands.commands import reboot, shutdown, password, verify_password, cancel
 
 def load_dispatcher(dispatcher):
     dispatcher.add_handler(CommandHandler('start', start))
     dispatcher.add_handler(CommandHandler('help', help))
+
+    # INFO
+    dispatcher.add_handler(CommandHandler('info_resumed', info_resumed))
+    dispatcher.add_handler(CommandHandler('info_cpu', info_cpu))
+    dispatcher.add_handler(CommandHandler('info_temp', info_temp))
+    dispatcher.add_handler(CommandHandler('info_ram', info_ram))
+    dispatcher.add_handler(CommandHandler('info_disk', info_disk))
 
     # COMMANDS
     dispatcher.add_handler(CommandHandler('reboot', reboot))
