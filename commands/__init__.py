@@ -16,10 +16,11 @@
 #     along with RaspberryPi Bot.  If not, see <http:#www.gnu.org/licenses/>.
 from telegram.ext import CommandHandler, CallbackQueryHandler, ConversationHandler, MessageHandler, \
     RegexHandler, Filters
-
 from commands.generic import start, help, error
 from commands.information import info_resumed, info_cpu, info_temp, info_ram, info_disk
 from commands.commands import reboot, shutdown, password, verify_password, cancel
+from commands.alerts import add_alert, set_new_alert, save_new_alert, modify_alert, set_alert, \
+    save_modified_alert, remove_alert, save_removed_alert
 
 def load_dispatcher(dispatcher):
     dispatcher.add_handler(CommandHandler('start', start))
@@ -46,4 +47,42 @@ def load_dispatcher(dispatcher):
         fallbacks=[CommandHandler('cancel', cancel)]
     )
     dispatcher.add_handler(conv_verify_password)
+    dispatcher.add_error_handler(error)
+
+    # ADD ALERT
+    SET_NEW_ALERT, SAVE_NEW_ALERT = range(2)
+    conv_add_alert = ConversationHandler(
+        entry_points=[CommandHandler('add_alert', add_alert)],
+        states={
+            SET_NEW_ALERT: [MessageHandler(Filters.text, set_new_alert, pass_user_data=True)],
+            SAVE_NEW_ALERT: [RegexHandler('^\d+$', save_new_alert, pass_user_data=True)]
+        },
+        fallbacks=[CommandHandler('cancel', cancel)]
+    )
+    dispatcher.add_handler(conv_add_alert)
+    dispatcher.add_error_handler(error)
+
+    # MODIFY ALERT
+    SET_ALERT, SAVE_MODIFIED_ALERT = range(2)
+    conv_modify_alert = ConversationHandler(
+        entry_points=[CommandHandler('modify_alert', modify_alert)],
+        states={
+            SET_ALERT: [MessageHandler(Filters.text, set_alert, pass_user_data=True)],
+            SAVE_MODIFIED_ALERT: [RegexHandler('^\d+$', save_new_alert, pass_user_data=True)]
+        },
+        fallbacks=[CommandHandler('cancel', cancel)]
+    )
+    dispatcher.add_handler(conv_modify_alert)
+    dispatcher.add_error_handler(error)
+
+    # REMOVE ALERT
+    SAVE_REMOVED_ALERT = 1
+    conv_remove_alert = ConversationHandler(
+        entry_points=[CommandHandler('remove_alert', remove_alert)],
+        states={
+            SAVE_REMOVED_ALERT: [MessageHandler(Filters.text, save_removed_alert)]
+        },
+        fallbacks=[CommandHandler('cancel', cancel)]
+    )
+    dispatcher.add_handler(conv_remove_alert)
     dispatcher.add_error_handler(error)

@@ -59,21 +59,25 @@ def check_raspberryPi():
     for userConfiguration in repository.get_dbc().get_table('UserConfiguration').all():
                 user_id = userConfiguration['user_id']
                 repository.get_dbc().insert_user_configuration(user_id)
+                cpu_percentage = get_cpu_percentage()
+                temp_degrees = "40" #get_temp_info() 
+                ram_percentage = get_ram_info().percent
+                disk_percentage = get_disk_info().percent
                 
-                if repository.get_dbc().get_cpu_alert(user_id) != None and repository.get_dbc().get_cpu_alert(user_id) <= get_cpu_percentage():
-                    print(get_cpu_percentage())
+                if repository.get_dbc().get_cpu_alert(user_id) != None and int(repository.get_dbc().get_cpu_alert(user_id)) <= cpu_percentage:
+                    print(cpu_percentage)
                     print("CPU PERCENTAGE IS HIGH")
 
-                if repository.get_dbc().get_temp_alert(user_id) != None and repository.get_dbc().get_temp_alert(user_id) <= get_temp_info():
-                    print(get_temp_info())
+                if repository.get_dbc().get_temp_alert(user_id) != None and int(repository.get_dbc().get_temp_alert(user_id)) <= temp_degrees:
+                    print(temp_degrees)
                     print("TEMP IS HIGH")
 
-                if repository.get_dbc().get_ram_alert(user_id) != None and repository.get_dbc().get_ram_alert(user_id) <= get_ram_info().percent:
-                    print(get_ram_info())
+                if repository.get_dbc().get_ram_alert(user_id) != None and int(repository.get_dbc().get_ram_alert(user_id)) <= ram_percentage:
+                    print(ram_percentage)
                     print("RAM USAGE IS HIGH")
 
-                if repository.get_dbc().get_disk_alert(user_id) != None and repository.get_dbc().get_disk_alert(user_id) <= get_disk_info().percent:
-                    print(get_disk_info())
+                if repository.get_dbc().get_disk_alert(user_id) != None and int(repository.get_dbc().get_disk_alert(user_id)) <= disk_percentage:
+                    print(disk_percentage)
                     print("DISK USAGE IS HIGH")
 
 def schedule_raspberryPi(time_seconds):
