@@ -55,7 +55,7 @@ def load_dispatcher(dispatcher):
         entry_points=[CommandHandler('add_alert', add_alert)],
         states={
             SET_NEW_ALERT: [MessageHandler(Filters.text, set_new_alert, pass_user_data=True)],
-            SAVE_NEW_ALERT: [RegexHandler('^\d+$', save_new_alert, pass_user_data=True)]
+            SAVE_NEW_ALERT: [RegexHandler(r'^\d+$', save_new_alert, pass_user_data=True)]
         },
         fallbacks=[CommandHandler('cancel', cancel)]
     )
@@ -68,7 +68,7 @@ def load_dispatcher(dispatcher):
         entry_points=[CommandHandler('modify_alert', modify_alert)],
         states={
             SET_ALERT: [MessageHandler(Filters.text, set_alert, pass_user_data=True)],
-            SAVE_MODIFIED_ALERT: [RegexHandler('^\d+$', save_new_alert, pass_user_data=True)]
+            SAVE_MODIFIED_ALERT: [RegexHandler(r'^\d+$', save_modified_alert, pass_user_data=True)]
         },
         fallbacks=[CommandHandler('cancel', cancel)]
     )
