@@ -71,7 +71,15 @@ def save_new_alert(bot, update, user_data):
     return ConversationHandler.END
 
 def modify_alert(bot, update):
-    None
+
+    reply_keyboard_markup = ReplyKeyboardMarkup([['CPU'], ['TEMP'], ['RAM'], ['DISK']], resize_keyboard=True, one_time_keyboard=True)
+
+    bot.send_message(chat_id=update.message.chat_id, 
+                     parse_mode="Markdown", 
+                     text="Select what Alert do you want to modify:",
+                     reply_markup=reply_keyboard_markup)
+
+    return SET_ALERT
 
 def set_alert(bot, update, user_data):
     type_of_alert = update.message.text
@@ -80,13 +88,13 @@ def set_alert(bot, update, user_data):
         update.message.reply_text('You  haven\'t yet a CPU alarm configured, use the command /add_alert and then select "CPU" to create it.')
         return ConversationHandler.END
     elif type_of_alert == "TEMP" and repository.get_dbc().get_temp_alert(update.message.chat_id) == None:
-        update.message.reply_text('You  haven\'t yet a CPU alarm configured, use the command /add_alert and then select "CPU" to create it.')
+        update.message.reply_text('You  haven\'t yet a TEMP alarm configured, use the command /add_alert and then select "CPU" to create it.')
         return ConversationHandler.END
     elif type_of_alert == "RAM" and repository.get_dbc().get_ram_alert(update.message.chat_id) == None:
-        update.message.reply_text('You  haven\'t yet a CPU alarm configured, use the command /add_alert and then select "CPU" to create it.')
+        update.message.reply_text('You  haven\'t yet a RAM alarm configured, use the command /add_alert and then select "CPU" to create it.')
         return ConversationHandler.END
     elif type_of_alert == "DISK" and repository.get_dbc().get_disk_alert(update.message.chat_id) == None:
-        update.message.reply_text('You  haven\'t yet a CPU alarm configured, use the command /add_alert and then select "CPU" to create it.')
+        update.message.reply_text('You  haven\'t yet a DISK alarm configured, use the command /add_alert and then select "CPU" to create it.')
         return ConversationHandler.END
     else:
         update.message.reply_text("Enter an integer value (the desired Degrees in case of TEMP alarm, and percentage for the rest) to adjust the alarm:")
