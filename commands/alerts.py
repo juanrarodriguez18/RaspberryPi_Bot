@@ -102,7 +102,18 @@ def set_alert(bot, update, user_data):
         return SAVE_MODIFIED_ALERT    
 
 def save_modified_alert(bot, update, user_data):
-    None
+    type_of_alert = user_data['type_of_alert']
+
+    if type_of_alert == "CPU":
+        repository.get_dbc().set_cpu_alert(update.message.chat_id, update.message.text)
+    if type_of_alert == "TEMP":
+        repository.get_dbc().set_temp_alert(update.message.chat_id, update.message.text)
+    if type_of_alert == "RAM":
+        repository.get_dbc().set_ram_alert(update.message.chat_id, update.message.text)
+    if type_of_alert == "DISK":
+        repository.get_dbc().set_disk_alert(update.message.chat_id, update.message.text)
+
+    update.message.reply_text('Your alarm has been modified successfully!')
 
 def remove_alert(bot, update):
     None
