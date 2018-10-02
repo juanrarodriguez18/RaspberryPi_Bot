@@ -71,6 +71,9 @@ def save_new_alert(bot, update, user_data):
     return ConversationHandler.END
 
 def modify_alert(bot, update):
+    None
+
+def set_alert(bot, update, user_data):
     type_of_alert = update.message.text
 
     if type_of_alert == "CPU" and repository.get_dbc().get_cpu_alert(update.message.chat_id) == None:
@@ -88,10 +91,7 @@ def modify_alert(bot, update):
     else:
         update.message.reply_text("Enter an integer value (the desired Degrees in case of TEMP alarm, and percentage for the rest) to adjust the alarm:")
         user_data['type_of_alert'] = type_of_alert    
-        return SAVE_NEW_ALERT    
-
-def set_alert(bot, update, user_data):
-    None
+        return SAVE_MODIFIED_ALERT    
 
 def save_modified_alert(bot, update, user_data):
     None
