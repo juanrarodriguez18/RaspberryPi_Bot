@@ -74,7 +74,24 @@ def modify_alert(bot, update):
     None
 
 def set_alert(bot, update, user_data):
-    None
+    type_of_alert = update.message.text
+
+    if type_of_alert == "CPU" and repository.get_dbc().get_cpu_alert(update.message.chat_id) == None:
+        update.message.reply_text('You  haven\'t yet a CPU alarm configured, use the command /add_alert and then select "CPU" to create it.')
+        return ConversationHandler.END
+    elif type_of_alert == "TEMP" and repository.get_dbc().get_temp_alert(update.message.chat_id) == None:
+        update.message.reply_text('You  haven\'t yet a CPU alarm configured, use the command /add_alert and then select "CPU" to create it.')
+        return ConversationHandler.END
+    elif type_of_alert == "RAM" and repository.get_dbc().get_ram_alert(update.message.chat_id) == None:
+        update.message.reply_text('You  haven\'t yet a CPU alarm configured, use the command /add_alert and then select "CPU" to create it.')
+        return ConversationHandler.END
+    elif type_of_alert == "DISK" and repository.get_dbc().get_disk_alert(update.message.chat_id) == None:
+        update.message.reply_text('You  haven\'t yet a CPU alarm configured, use the command /add_alert and then select "CPU" to create it.')
+        return ConversationHandler.END
+    else:
+        update.message.reply_text("Enter an integer value (the desired Degrees in case of TEMP alarm, and percentage for the rest) to adjust the alarm:")
+        user_data['type_of_alert'] = type_of_alert    
+        return SAVE_MODIFIED_ALERT    
 
 def save_modified_alert(bot, update, user_data):
     None
