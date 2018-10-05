@@ -115,8 +115,38 @@ def save_modified_alert(bot, update, user_data):
 
     update.message.reply_text('Your alarm has been modified successfully!')
 
+    return ConversationHandler.END
+
 def remove_alert(bot, update):
-    None
+    reply_keyboard_markup = ReplyKeyboardMarkup([['CPU'], ['TEMP'], ['RAM'], ['DISK']], resize_keyboard=True, one_time_keyboard=True)
+
+    bot.send_message(chat_id=update.message.chat_id, 
+                     parse_mode="Markdown", 
+                     text="Select what Alert do you want to remove:",
+                     reply_markup=reply_keyboard_markup)
+
+    return SAVE_REMOVED_ALERT
 
 def save_removed_alert(bot, update):
-    None
+    type_of_alert = update.message.text
+
+    if type_of_alert == "CPU" and repository.get_dbc().get_cpu_alert(update.message.chat_id) == None:
+        update.message.reply_text('You  haven\'t yet a CPU alarm configured, use the command /add_alert and then select "CPU" to create it.')
+    elif type_of_alert == "TEMP" and repository.get_dbc().get_temp_alert(update.message.chat_id) == None:
+        update.message.reply_text('You  haven\'t yet a TEMP alarm configured, use the command /add_alert and then select "CPU" to create it.')
+    elif type_of_alert == "RAM" and repository.get_dbc().get_ram_alert(update.message.chat_id) == None:
+        update.message.reply_text('You  haven\'t yet a RAM alarm configured, use the command /add_alert and then select "CPU" to create it.')
+    elif type_of_alert == "DISK" and repository.get_dbc().get_disk_alert(update.message.chat_id) == None:
+        update.message.reply_text('You  haven\'t yet a DISK alarm configured, use the command /add_alert and then select "CPU" to create it.')
+    else:
+        if type_of_alert == "CPU":
+            repository.get_dbc().set_cpu_alert(update.message.chat_id, None)
+        if type_of_alert == "TEMP":
+            repository.get_dbc().set_temp_alert(update.message.chat_id, None)
+        if type_of_alert == "RAM":
+            repository.get_dbc().set_ram_alert(update.message.chat_id, None)
+        if type_of_alert == "DISK":
+            repository.get_dbc().set_disk_alert(update.message.chat_id, None)
+        update.message.reply_text('Your alarm has been removed successfully!') 
+    
+    return ConversationHandler.END
