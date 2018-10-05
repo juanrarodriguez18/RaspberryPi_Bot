@@ -60,7 +60,7 @@ def check_raspberryPi():
                 user_id = userConfiguration['user_id']
                 repository.get_dbc().insert_user_configuration(user_id)
                 cpu_percentage = get_cpu_percentage()
-                temp_degrees = "40" #get_temp_info() 
+                temp_degrees = get_temp_info() # 40 -> For testing purposes
                 ram_percentage = get_ram_info().percent
                 disk_percentage = get_disk_info().percent
                 
