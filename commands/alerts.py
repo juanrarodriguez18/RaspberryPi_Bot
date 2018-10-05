@@ -116,7 +116,14 @@ def save_modified_alert(bot, update, user_data):
     update.message.reply_text('Your alarm has been modified successfully!')
 
 def remove_alert(bot, update):
-    None
+    reply_keyboard_markup = ReplyKeyboardMarkup([['CPU'], ['TEMP'], ['RAM'], ['DISK']], resize_keyboard=True, one_time_keyboard=True)
+
+    bot.send_message(chat_id=update.message.chat_id, 
+                     parse_mode="Markdown", 
+                     text="Select what Alert do you want to remove:",
+                     reply_markup=reply_keyboard_markup)
+
+    return SAVE_REMOVED_ALERT
 
 def save_removed_alert(bot, update):
     None
