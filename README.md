@@ -47,7 +47,7 @@ The parth `my-config/my_config.ini` will be the path that we have configurated a
 - **reboot** - Reboot the Raspberry
 - **shutdown** - Shutdown the Raspberry
 - **password** - Verify the password (needed to execute the commands of reboot and shutdown)
-- **add_alert** - Create a new Alert (CPU, TEMP, RAM, DISK)
-- **modify_alert** - Modify the value of one existing Alert (CPU, TEMP, RAM, DISK)
+- **add_alert** - Create a new Alert
+- **modify_alert** - Modify the value of one existing Alert
 - **remove_alert** - Remove on existing Alert
 - **help** - Show the Help info
