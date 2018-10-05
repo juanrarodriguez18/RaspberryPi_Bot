@@ -36,6 +36,18 @@ The parth `my-config/my_config.ini` will be the path that we have configurated a
 
 [In progress]
 
-## Comandos del Bot
+## Bot Commands
 
-[In progress]
+- **start** - Start the Bot and the configurated alerts
+- **info_resumed** - Show the resumed Raspberry info
+- **info_cpu** - Show the detailed info of the cpu
+- **info_temp** - Show the detailed info of the Temperature
+- **info_ram**- Show the detailed info of the Ram
+- **info_disk** - Show the detailed info of the Disk
+- **reboot** - Reboot the Raspberry
+- **shutdown** - Shutdown the Raspberry
+- **password** - Verify the password (needed to execute the commands of reboot and shutdown)
+- **add_alert** - Create a new Alert (CPU, TEMP, RAM, DISK)
+- **modify_alert** - Modify the value of one existing Alert (CPU, TEMP, RAM, DISK)
+- **remove_alert** - Remove on existing Alert
+- **help** - Show the Help info
